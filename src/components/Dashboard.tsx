@@ -36,6 +36,7 @@ const Dashboard: React.FC = () => {
           });
           localStorage.setItem("mostExpensiveMedicine", JSON.stringify(mostExpensiveMedicine));
 
+
           const cheapestMedicine = data.reduce((prev: Medicine, current: Medicine) => {
             return parseFloat(current.precio) < parseFloat(prev.precio) ? current : prev;
           });
