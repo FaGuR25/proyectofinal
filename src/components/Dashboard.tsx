@@ -28,6 +28,20 @@ const Dashboard: React.FC = () => {
       .then((response) => response.json())
       .then((data) => {
         setMedicines(data);
+
+        if (data.length > 0) {
+          // Almacena el medicamento más caro en el estado local del navegador
+          const mostExpensiveMedicine = data.reduce((prev: Medicine, current: Medicine) => {
+            return parseFloat(current.precio) > parseFloat(prev.precio) ? current : prev;
+          });
+          localStorage.setItem("mostExpensiveMedicine", JSON.stringify(mostExpensiveMedicine));
+
+          // Almacena el medicamento más barato en el estado local del navegador
+          const cheapestMedicine = data.reduce((prev: Medicine, current: Medicine) => {
+            return parseFloat(current.precio) < parseFloat(prev.precio) ? current : prev;
+          });
+          localStorage.setItem("cheapestMedicine", JSON.stringify(cheapestMedicine));
+        }
       })
       .catch((error) => console.error(error));
   }, []);

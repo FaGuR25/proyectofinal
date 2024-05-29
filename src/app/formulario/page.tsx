@@ -9,9 +9,47 @@ function Formulario() {
   const [gramos, setGramos] = useState("");
   const [precio, setPrecio] = useState("");
   const [marca, setMarca] = useState("");
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
+  const validateForm = () => {
+    if (!nombre || !gramos || !precio || !marca) {
+      setError("Todos los campos son obligatorios.");
+      return false;
+    }
+
+    const nombreRegex = /^[a-zA-Z\s]+$/; 
+    if (!nombreRegex.test(nombre)) {
+      setError("El nombre del medicamento no puede contener números.");
+      return false;
+    }
+
+    const numeroPositivoRegex = /^\d+$/; 
+    if (!numeroPositivoRegex.test(gramos)) {
+      setError("Los gramos deben ser un valor numérico positivo.");
+      return false;
+    }
+
+    if (!numeroPositivoRegex.test(precio)) {
+      setError("El precio debe ser un valor numérico positivo.");
+      return false;
+    }
+
+    const marcaRegex = /^[a-zA-Z\s]+$/; 
+    if (!marcaRegex.test(marca)) {
+      setError("La marca no puede contener números.");
+      return false;
+    }
+
+    setError(null); 
+    return true;
+  };
+
   const handleSave = () => {
+    if (!validateForm()) {
+      return;
+    }
+
     const Medicina = { nombre, gramos, precio, marca };
     localStorage.setItem("medicina", JSON.stringify(Medicina));
 
@@ -45,6 +83,7 @@ function Formulario() {
   return (
     <div className={styles.formContainer}>
       <h2>Formulario</h2>
+      {error && <p className={styles.error}>{error}</p>}
       <form>
         <div>
           <label>Nombre de Medicina</label>
@@ -59,7 +98,12 @@ function Formulario() {
           <input
             type="number"
             value={gramos}
-            onChange={(e) => setGramos(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (!value.startsWith('-')) {
+                setGramos(value);
+              }
+            }}
           />
         </div>
         <div>
@@ -67,7 +111,12 @@ function Formulario() {
           <input
             type="number"
             value={precio}
-            onChange={(e) => setPrecio(e.target.value)}
+            onChange={(e) => {
+              const value = e.target.value;
+              if (!value.startsWith('-')) {
+                setPrecio(value);
+              }
+            }}
           />
         </div>
         <div>
