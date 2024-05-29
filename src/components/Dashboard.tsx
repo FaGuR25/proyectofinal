@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import styles from "../styles/Dashboard.module.css";
 
 interface Medicine {
   nombre: string;
@@ -15,11 +16,11 @@ const Dashboard: React.FC = () => {
   const router = useRouter();
 
   const handleAddMedicine = () => {
-    router.push('/formulario');
+    router.push("/formulario");
   };
 
   const handleViewPrices = () => {
-    router.push('/precios');
+    router.push("/precios");
   };
 
   useEffect(() => {
@@ -32,52 +33,30 @@ const Dashboard: React.FC = () => {
   }, []);
 
   return (
-    <div style={{ padding: '20px' }}>
+    <div className={styles.dashboardContainer}>
       <h1>Dashboard</h1>
-      <button
-        onClick={handleAddMedicine}
-        style={{
-          marginBottom: '20px',
-          padding: '10px',
-          backgroundColor: '#007BFF',
-          color: 'white',
-          border: 'none',
-          borderRadius: '4px',
-          cursor: 'pointer',
-        }}
-      >
+      <button onClick={handleAddMedicine} className={styles.addMedicineButton}>
         Agregar Medicina
       </button>
-      <button
-        onClick={handleViewPrices}
-        style={{
-          marginBottom: '20px',
-          padding: '10px',
-          backgroundColor: 'green',
-          color: 'white',
-          border: 'none',
-          borderRadius: '4px',
-          cursor: 'pointer',
-        }}
-      >
+      <button onClick={handleViewPrices} className={styles.viewPricesButton}>
         Ver Precios
       </button>
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+      <table className={styles.table}>
         <thead>
           <tr>
-            <th style={{ border: '1px solid #ddd', padding: '8px' }}>Nombre de Medicina</th>
-            <th style={{ border: '1px solid #ddd', padding: '8px' }}>Gramos</th>
-            <th style={{ border: '1px solid #ddd', padding: '8px' }}>Precio</th>
-            <th style={{ border: '1px solid #ddd', padding: '8px' }}>Marca</th>
+            <th>Nombre de Medicina</th>
+            <th>Gramos</th>
+            <th>Precio</th>
+            <th>Marca</th>
           </tr>
         </thead>
         <tbody>
           {medicines.map((medicine, index) => (
             <tr key={index}>
-              <td style={{ border: '1px solid #ddd', padding: '8px' }}>{medicine.nombre}</td>
-              <td style={{ border: '1px solid #ddd', padding: '8px' }}>{medicine.gramos}</td>
-              <td style={{ border: '1px solid #ddd', padding: '8px' }}>{medicine.precio}</td>
-              <td style={{ border: '1px solid #ddd', padding: '8px' }}>{medicine.marca}</td>
+              <td>{medicine.nombre}</td>
+              <td>{medicine.gramos}</td>
+              <td>{medicine.precio}</td>
+              <td>{medicine.marca}</td>
             </tr>
           ))}
         </tbody>
