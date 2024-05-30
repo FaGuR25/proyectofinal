@@ -2,14 +2,14 @@
 
 En este proyecto lo que hicimos fue reutilizar una actividad pasada donde usamos una base de datos como back-end para poder guardar datos de lo que trata nuestro proyecto los programas que utilizamos fueron los siguientes:
 
-## Back-end
+### Back-end
 
 - Docker 
 - Postman
 - Dbeaver
 - API en Visual Studio Code 
 
-## Front-end
+### Front-end
 
 - API en Visual Studio Code
 - Framework Next.js
@@ -56,10 +56,53 @@ Para resumidas cuentas en la API lo que hice fue llamar a los componentes Contro
 
 Luego nos vamos a Postman y vemos si funciona el Post y Get:
 
-## Get
+### Get
 
 ![Texto alternativo](/src\postmanget.jpg)
 
-## Post
+### Post
 
 ![Texto alternativo](/src\postpost.jpg)
+
+Cuando todo está listo y funcionando copiamos el código que nos da Postman con el Fecth para poderlo copiarlo en el API del front-end.
+
+### Fetch
+
+![Texto alternativo](/src\fetch.jpg)
+
+## Front-end
+
+Creé la API de front-end en Visual Studio Code con el framework de Next.js
+
+Tengo tres componentes principales:
+
+- Dashboard
+- Precios
+- Formulario
+
+### Dashboard 
+
+``` typescript
+useEffect(() => {
+    fetch("http://localhost:3100/Medicina")
+      .then((response) => response.json())
+      .then((data) => {
+        setMedicines(data);
+
+        if (data.length > 0) {
+
+          const mostExpensiveMedicine = data.reduce((prev: Medicine, current: Medicine) => {
+            return parseFloat(current.precio) > parseFloat(prev.precio) ? current : prev;
+          });
+          localStorage.setItem("mostExpensiveMedicine", JSON.stringify(mostExpensiveMedicine));
+
+
+          const cheapestMedicine = data.reduce((prev: Medicine, current: Medicine) => {
+            return parseFloat(current.precio) < parseFloat(prev.precio) ? current : prev;
+          });
+          localStorage.setItem("cheapestMedicine", JSON.stringify(cheapestMedicine));
+        }
+      })
+      .catch((error) => console.error(error));
+  }, []);
+```
