@@ -54,6 +54,19 @@ Para resumidas cuentas en la API lo que hice fue llamar a los componentes Contro
 
 ![Texto alternativo](/src\controllers.jpg)
 
+Despues de hacer los cambios en la base de datos y guardalos en la terminal tengo que bajar y subir el docker de la siguiente manera:
+
+Bajarlo:
+```
+docker-compose down -v
+```
+Subirlo:
+```
+docker-compose up --build -d  
+```
+
+
+
 Luego nos vamos a Postman y vemos si funciona el Post y Get:
 
 ### Get
@@ -71,6 +84,18 @@ Cuando todo está listo y funcionando copiamos el código que nos da Postman con
 ![Texto alternativo](/src\fetch.jpg)
 
 ## Front-end
+
+Creé el archivo con el siguiente comando:
+
+```
+npm create vite@latest proyectoFinal --template react-ts
+```
+y lo corrí con la linea de código:
+```
+npm run dev
+```
+se abre de la siguiente manera:
+![Texto alternativo](/src\corr.jpg)
 
 Creé la API de front-end en Visual Studio Code con el framework de Next.js
 
@@ -106,3 +131,58 @@ useEffect(() => {
       .catch((error) => console.error(error));
   }, []);
 ```
+
+### Precios
+
+``` typescript
+const Precios: React.FC = () => {
+  const [medicines, setMedicines] = useState<Medicine[]>([]);
+  const [mostExpensiveMedicine, setMostExpensiveMedicine] = useState<Medicine | null>(null);
+  const [cheapestMedicine, setCheapestMedicine] = useState<Medicine | null>(null);
+  const router = useRouter();
+
+  useEffect(() => {
+    fetch("http://localhost:3100/Medicina")
+      .then((response) => response.json())
+      .then((data) => {
+        setMedicines(data);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+```
+### Formulario
+
+``` typescript
+fetch("http://localhost:3100/Medicina", requestOptions)
+      .then((response) => response.text())
+      .then((result) => console.log(result))
+      .catch((error) => console.error(error));
+    console.log("datos del tema: ", Medicina);
+
+    router.push("/");
+  };
+```
+## Mockups 
+
+Aquí solo se muestran los registros que se llevan a cabo en la pantalla de Formulario, además de dos botones que nos llevan a las otras dos pantallas.
+
+![alt text](image-2.png)
+
+El formulario tiene validaciones para que todos los campos tengan que estar llenos para poder guardalos, también para que no se puedan poner letras en donde van números ni numeros negativos y donde van nombres o letras no acepte números. En esta pantalla solo tienes que agregar información en los campos y dar a guardar para mandar a Dashboard los datos. Tambien puedes ver los precios. 
+
+![alt text](image-1.png)
+
+En esta pantalla solo tienes que presionar el boton para poder saber cual es el precio del medicamento más caro y más barato.
+
+![alt text](image-3.png)
+
+## Pruebas con React Testing Library
+
+React Testing Library es una biblioteca que ayuda a realizar pruebas de componentes React. Se enfoca en cómo interactúa un usuario con la interfaz, en lugar de centrarse en la implementación interna de los componentes. Esto fomenta las pruebas más realistas y centradas en el usuario.
+
+![alt text](image-4.png)
+![alt text](image-5.png)
+![alt text](image-6.png)
+![alt text](image-7.png)
+![alt text](image-8.png)
+
